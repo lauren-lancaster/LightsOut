@@ -21,31 +21,35 @@ function Board() {
 
   const [board, setBoard] = useState({ grid: lightsGrid })
 
-  function toggleLight(cellIndex) {
-    let [cellRowIndex, cellColIndex] = cellIndex.split('')
-    cellRowIndex = Number(cellRowIndex)
-    cellColIndex = Number(cellColIndex)
+  function toggleLight(cellIndex: string) {
+    console.log('toggle: ', cellIndex)
+    const stringCellIndex = String(cellIndex)
+    let [cellRowIndex, cellColIndex] = stringCellIndex.split('')
+    const numCellRowIndex = Number(cellRowIndex)
+    const numCellColIndex = Number(cellColIndex)
 
     setBoard((state) => ({
       ...state,
       grid: state.grid.map((row, rowIndex) =>
-        rowIndex === cellRowIndex
-          ? row.map((col, colIndex) => (colIndex === cellColIndex ? !col : col))
+        rowIndex === numCellRowIndex
+          ? row.map((col, colIndex) =>
+              colIndex === numCellColIndex ? !col : col
+            )
           : row
       ),
     }))
   }
 
-  function toggleAllLights(cellIndex) {
+  function toggleAllLights(cellIndex: string) {
     let [cellRowIndex, cellColIndex] = cellIndex.split('')
-    cellRowIndex = Number(cellRowIndex)
-    cellColIndex = Number(cellColIndex)
+    const numCellRowIndex = Number(cellRowIndex)
+    const numCellColIndex = Number(cellColIndex)
 
     toggleLight(cellIndex)
-    toggleLight([cellRowIndex, cellColIndex + 1].join(''))
-    toggleLight([cellRowIndex, cellColIndex - 1].join(''))
-    toggleLight([cellRowIndex + 1, cellColIndex].join(''))
-    toggleLight([cellRowIndex - 1, cellColIndex].join(''))
+    toggleLight([numCellRowIndex, numCellColIndex + 1].join(''))
+    toggleLight([numCellRowIndex, numCellColIndex - 1].join(''))
+    toggleLight([numCellRowIndex + 1, numCellColIndex].join(''))
+    toggleLight([numCellRowIndex - 1, numCellColIndex].join(''))
   }
 
   function hasWon() {
