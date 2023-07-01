@@ -1,5 +1,28 @@
-body {
-  background-color: #faf8f1;
-  color: #0a1520;
-  font-family: 'Poppins', sans-serif;
+
+.Cell-on {
+  width: 25px;
+  height: 25px;
+
+  border-radius: 50%;
+
+  background-color: rgb(18, 231, 231);
+
+  border: none;
+  margin: 20px;
+
+  box-shadow: 
+  0 0 22px rgb(18, 231, 231),
+  0 0 42px rgb(18, 231, 231)
+  
+
+}
+
+.Cell-off {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  
+  border: none;
+  margin: 20px;
+  background-color: rgb(55, 55, 55);
 }
