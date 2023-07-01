@@ -4,6 +4,7 @@ import { useState } from 'react'
 function Board() {
   const size = 3
   const chanceLightStartsOn = 0.25
+  const [count, setCount] = useState(0)
 
   const lightsGrid = Array(size)
     .fill(0)
@@ -21,8 +22,19 @@ function Board() {
 
   const [board, setBoard] = useState({ grid: lightsGrid })
 
+  function toggleAllLights(cellIndex: string) {
+    let [cellRowIndex, cellColIndex] = cellIndex.split('')
+    const numCellRowIndex = Number(cellRowIndex)
+    const numCellColIndex = Number(cellColIndex)
+
+    toggleLight(cellIndex)
+    toggleLight([numCellRowIndex, numCellColIndex + 1].join(''))
+    toggleLight([numCellRowIndex, numCellColIndex - 1].join(''))
+    toggleLight([numCellRowIndex + 1, numCellColIndex].join(''))
+    toggleLight([numCellRowIndex - 1, numCellColIndex].join(''))
+  }
+
   function toggleLight(cellIndex: string) {
-    console.log('toggle: ', cellIndex)
     const stringCellIndex = String(cellIndex)
     let [cellRowIndex, cellColIndex] = stringCellIndex.split('')
     const numCellRowIndex = Number(cellRowIndex)
@@ -38,22 +50,27 @@ function Board() {
           : row
       ),
     }))
-  }
-
-  function toggleAllLights(cellIndex: string) {
-    let [cellRowIndex, cellColIndex] = cellIndex.split('')
-    const numCellRowIndex = Number(cellRowIndex)
-    const numCellColIndex = Number(cellColIndex)
-
-    toggleLight(cellIndex)
-    toggleLight([numCellRowIndex, numCellColIndex + 1].join(''))
-    toggleLight([numCellRowIndex, numCellColIndex - 1].join(''))
-    toggleLight([numCellRowIndex + 1, numCellColIndex].join(''))
-    toggleLight([numCellRowIndex - 1, numCellColIndex].join(''))
+    incCounter()
   }
 
   function hasWon() {
     return board.grid.every((row) => row.every((cell) => !cell))
+  }
+
+  const incCounter = () => {
+    setCount(count + 1)
+  }
+
+  function youDied() {
+    if (count >= 15) {
+      console.log('death')
+      return (
+        <>
+          <h1>You DIED</h1>
+          <p>Implement a LINK to new route path</p>
+        </>
+      )
+    }
   }
 
   const gridDisplay = board.grid.map(function (row, rowIndex) {
@@ -67,6 +84,7 @@ function Board() {
             toggleLight={toggleAllLights}
           />
         ))}
+        {count}
       </div>
     )
   })
@@ -75,6 +93,11 @@ function Board() {
     <div className="Board">
       {hasWon() ? (
         <div className="Board-hasWon">Congratulations!</div>
+      ) : youDied() ? (
+        <>
+          <h1>You DIED</h1>
+          <p>Implement a LINK to new route path</p>
+        </>
       ) : (
         gridDisplay
       )}
